@@ -2,3 +2,5 @@
 
 robot = rigidBodyTree("DataFormat","column");
 
+% frame 1 free at z axis located at 
+

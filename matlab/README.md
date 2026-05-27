@@ -14,6 +14,8 @@ The matrix and all the state estimation will be included inside the adaptive fol
 
 ### robot setup
 
-1. using modified d-h table for joint and body frame that is natrual to rigid body tree object.
+1. using modified d-h table for joint and body frame that is natrual to rigid body tree object. i.e. $f_{0} \sim f_{3}$
 
-2. 
+2. notice that $^0f_1$ defines the frame of body 1 (using the same joint 1 frame), with respect to world frame $\{0\}$. And it can be always set to $^1f_1 = eye(4)$.
+
+3. 
