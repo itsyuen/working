@@ -12,14 +12,14 @@ X0 = [1 0.35]'; % robot (Cartesian space)
 q0 = inverse_kinematics(l1,l2,X0); % transfer into the joint space
 Y0 = [q0(1) q0(2) 0 0];
 
-%% ode89
+%% ode89 for 1st run not iterative use
 
 [t,Y] = ode89(@(t,Y) Computed_Torque_Method_1(t,Y),tspan,Y0);
 q = [Y(:,1) Y(:,2)]'; % robot trajectory in the joint space
 q_dot = [Y(:,3) Y(:,4)]';
 
 %% recall data
-n = length(t);
+n = length(t);      % after ode89, this pre-calculation retuns t as 2557
 Xd = zeros(2,n); % desired trajectory in the Cartesian space
 X = zeros(2,n);  % robot trajectory in the Cartesian space
 qd = zeros(2,n); % desired trajectory in the joint space
@@ -28,6 +28,7 @@ taux = zeros(2,n); % control input
 q_ddot = zeros(2,n);
 
 for i = 1:n
+
     [Xd(:,i),Xd_dot,Xd_ddot] = desired_trajectory_cartesian(t(i),l1,l2);
     [X(:,i),X_dot] = forward_kenimatics(l1,l2,q(:,i),q_dot(:,i));
     qd(:,i) = inverse_kinematics(l1,l2,Xd(:,i));
