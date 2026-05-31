@@ -19,7 +19,7 @@ q = [Y(:,1) Y(:,2)]'; % robot trajectory in the joint space
 q_dot = [Y(:,3) Y(:,4)]';
 
 %% recall data
-n = length(t); % after ode89, this pre-calculation returns t as 2557 by 1, not evenly time-stepped
+n = length(t); % after ode89, this pre-calculation retuns t as 2557 by 1, not evenly time-stepped
 Xd = zeros(2,n); % desired trajectory in the Cartesian space
 X = zeros(2,n);  % robot trajectory in the Cartesian space
 qd = zeros(2,n); % desired trajectory in the joint space
@@ -29,13 +29,11 @@ q_ddot = zeros(2,n);
 
 for i = 1:n
 
-    [Xd(:,i), Xd_dot, Xd_ddot] = desired_trajectory_cartesian(t(i), l1, l2);
-    [X(:,i), X_dot] = forward_kenimatics(l1, l2, q(:,i), q_dot(:,i));
-
-    qd(:,i) = inverse_kinematics(l1, l2, Xd(:,i));
-
-    [J, J_dot] = Jacobian_matrix(l1, l2, q(:,i), q_dot(:,i));
-
+    [Xd(:,i),Xd_dot,Xd_ddot] = desired_trajectory_cartesian(t(i),l1,l2);
+    [X(:,i),X_dot] = forward_kenimatics(l1,l2,q(:,i),q_dot(:,i));
+    qd(:,i) = inverse_kinematics(l1,l2,Xd(:,i));
+    [J,J_dot] = Jacobian_matrix(l1,l2,q(:,i),q_dot(:,i));
+    
     [D,C,G,Dx,Cx,Gx] = system_matrix(m1,m2,l1,l2,lc1,lc2,I1,I2,g,q(:,i),q_dot(:,i),J,J_dot);
 
     e = X(:,i) - Xd(:,i);
